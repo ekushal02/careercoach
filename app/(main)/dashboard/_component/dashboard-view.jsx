@@ -387,20 +387,21 @@ const DashboardView = ({ insights }) => {
 
         {/* Trends & Recommended Skills */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Key Industry Trends</CardTitle>
+
+          {/* Key Industry Trends */}
+          <Card className="bg-background/50 backdrop-blur-md shadow-md transition-transform duration-200 hover:scale-[1.01]">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-cyan-400" />
+                <CardTitle className="text-sm font-semibold text-foreground">Key Industry Trends</CardTitle>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-1">
-                {insights.keyTrends.map((trend, index) => (
+              <div className="flex flex-wrap gap-2">
+                {insights.keyTrends.map((trend) => (
                   <span
                     key={trend}
-                    className={`text-white px-2 py-1 text-sm rounded-full ${
-                      index % 2 !== 0
-                        ? "bg-gradient-to-r from-blue-500 to-background"
-                        : "bg-gradient-to-r from-cyan-400 to-background"
-                    }`}
+                    className="text-sm text-foreground bg-muted rounded-full px-3 py-1 hover:bg-cyan-500 transition-colors"
                   >
                     {trend}
                   </span>
@@ -409,22 +410,20 @@ const DashboardView = ({ insights }) => {
             </CardContent>
           </Card>
 
-          <Card
-            className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]"
-          >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Recommended Skills</CardTitle>
+          {/* Recommended Skills */}
+          <Card className="bg-background/50 backdrop-blur-md shadow-md transition-transform duration-200 hover:scale-[1.01]">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Brain className="h-4 w-4 text-cyan-400" />
+                <CardTitle className="text-sm font-semibold text-foreground">Recommended Skills</CardTitle>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-1">
-                {insights.recommendedSkills.map((skill, index) => (
+              <div className="flex flex-wrap gap-2">
+                {insights.recommendedSkills.map((skill) => (
                   <span
                     key={skill}
-                    className={`text-white px-2 py-1 text-sm rounded-full ${
-                      index % 2 !== 0
-                        ? "bg-gradient-to-r from-blue-500 to-background"
-                        : "bg-gradient-to-r from-cyan-400 to-background"
-                    }`}
+                    className="text-sm text-foreground bg-muted rounded-full px-3 py-1 hover:bg-blue-500 transition-colors"
                   >
                     {skill}
                   </span>
@@ -432,7 +431,10 @@ const DashboardView = ({ insights }) => {
               </div>
             </CardContent>
           </Card>
+
         </div>
+
+
 
       </div>
     </div>
