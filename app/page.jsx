@@ -137,6 +137,7 @@ export default function Home() {
                             height={48}
                             src={item.image}
                             alt={item.author}
+                            unoptimized
                             className="rounded-full object-cover border-2 border-primary/30"
                           />
                         </div>
