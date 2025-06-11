@@ -24,42 +24,81 @@ export default function StatsCards({ assessments }) {
     );
   };
 
+  const score = parseFloat(getAverageScore());
+
+  const getColorConfig = (value) => {
+    if (value <= 40) {
+      return {
+        gradient: "from-red-500 to-pink-500",
+        shadow: "shadow-red-500/40",
+        icon: "text-red-500",
+      };
+    } else if (value <= 75) {
+      return {
+        gradient: "from-yellow-400 to-yellow-600",
+        shadow: "shadow-yellow-500/40",
+        icon: "text-yellow-500",
+      };
+    } else {
+      return {
+        gradient: "from-green-400 to-green-600",
+        shadow: "shadow-green-500/40",
+        icon: "text-green-500",
+      };
+    }
+  };
+
+  const averageConfig = getColorConfig(score);
+  const latestScore = getLatestAssessment()?.quizScore || 0;
+  const latestConfig = getColorConfig(latestScore);
+
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <Card>
+      {/* Average Score Card */}
+      <Card
+        className={`bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-105 shadow-lg ${averageConfig.shadow}`}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Average Score</CardTitle>
-          <Trophy className="h-4 w-4 text-muted-foreground" />
+          <Trophy className={`h-5 w-5 ${averageConfig.icon}`} />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{getAverageScore()}%</div>
-          <p className="text-xs text-muted-foreground">
-            Across all assessments
-          </p>
+          <div
+            className={`text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${averageConfig.gradient}`}
+          >
+            {score}%
+          </div>
+          <p className="text-xs text-muted-foreground">Across all assessments</p>
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Total Questions Card */}
+      <Card className="bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-105 shadow-lg shadow-cyan-500/40">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Questions Practiced
-          </CardTitle>
-          <Brain className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium">Questions Practiced</CardTitle>
+          <Brain className="h-5 w-5 text-cyan-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{getTotalQuestions()}</div>
+          <div className="text-2xl font-bold text-cyan-500">
+            {getTotalQuestions()}
+          </div>
           <p className="text-xs text-muted-foreground">Total questions</p>
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Latest Score Card */}
+      <Card
+        className={`bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-105 shadow-lg ${latestConfig.shadow}`}
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Latest Score</CardTitle>
-          <Target className="h-4 w-4 text-muted-foreground" />
+          <Target className={`h-5 w-5 ${latestConfig.icon}`} />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {getLatestAssessment()?.quizScore.toFixed(1) || 0}%
+          <div
+            className={`text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${latestConfig.gradient}`}
+          >
+            {latestScore.toFixed(1)}%
           </div>
           <p className="text-xs text-muted-foreground">Most recent quiz</p>
         </CardContent>

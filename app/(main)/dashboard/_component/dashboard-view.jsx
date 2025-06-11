@@ -40,98 +40,111 @@ const DashboardView = ({ insights }) => {
     if (rate >= 20) {
       return {
         icon: TrendingUp,
-        color: "#22c55e", // green
-        gradientClass: "bg-gradient-to-r from-green-300 to-green-800",
+        color: "text-green-500", // green
+        gradientClass: "from-green-400 to-green-600",
+        shadowClass: "shadow-green-500/40",
       };
     } else if (rate >= 10) {
       return {
         icon: LineChart,
-        color: "#eab308", // yellow
-        gradientClass: "bg-gradient-to-r from-yellow-300 to-yellow-800",
+        color: "text-yellow-500", // yellow
+        gradientClass: "from-yellow-400 to-yellow-600",
+        shadowClass: "shadow-yellow-500/40",
       };
     } else {
       return {
         icon: TrendingDown,
-        color: "#ef4444", // red
-        gradientClass: "bg-gradient-to-r from-red-300 to-red-800",
+        color: "text-red-500", // red
+        gradientClass: "from-red-500 to-pink-500",
+        shadowClass: "shadow-red-500/40"
       };
     }
   };
-
 
   const getDemandLevelInfo = (level) => {
     switch (level.toLowerCase()) {
       case "high":
         return {
-          color: "#22c55e", // green
-          gradientClass: "bg-gradient-to-r from-green-300 to-green-800",
+          color: "text-green-500", // green
+          gradientClass: "from-green-400 to-green-600",
+          shadowClass: "shadow-green-500/40",
         };
       case "medium":
         return {
-          color: "#eab308", // yellow
-          gradientClass: "bg-gradient-to-r from-yellow-300 to-yellow-800",
+          color: "text-yellow-500", // yellow
+          gradientClass: "from-yellow-400 to-yellow-600",
+          shadowClass: "shadow-yellow-500/40",
         };
       case "low":
         return {
-          color: "#ef4444", // red
-          gradientClass: "bg-gradient-to-r from-red-300 to-red-800",
+          color: "text-red-500", // red
+          gradientClass: "from-red-500 to-pink-500",
+          shadowClass: "shadow-red-500/40"
         };
       default:
         return {
-          color: "#6b7280", // gray
-          gradientClass: "bg-gradient-to-r from-gray-300 to-gray-800",
+          color: "text-gray-500", // gray
+          gradientClass: "from-gray-300 to-gray-800",
+          shadowClass: "shadow-gray-500/40",
         };
     }
   };
-
 
   const getMarketOutlookInfo = (outlook) => {
     switch (outlook.toLowerCase()) {
       case "positive":
         return {
           icon: TrendingUp,
-          color: "#22c55e", // green-500
-          gradientClass: "bg-gradient-to-r from-green-300 to-green-800",
+          color: "text-green-500", // green
+          gradientClass: "from-green-400 to-green-600",
+          shadowClass: "shadow-green-500/40",
         };
       case "neutral":
         return {
           icon: LineChart,
-          color: "#eab308", // yellow-500
-          gradientClass: "bg-gradient-to-r from-yellow-300 to-yellow-800",
+          color: "text-yellow-500", // yellow
+          gradientClass: "from-yellow-400 to-yellow-600",
+          shadowClass: "shadow-yellow-500/40",
         };
       case "negative":
         return {
           icon: TrendingDown,
-          color: "#ef4444", // red-500
-          gradientClass: "bg-gradient-to-r from-red-300 to-red-800",
+          color: "text-red-500", // red
+          gradientClass: "from-red-500 to-pink-500",
+          shadowClass: "shadow-red-500/40"
         };
       default:
         return {
           icon: LineChart,
-          color: "#6b7280", // gray-500
-          gradientClass: "bg-gradient-to-r from-gray-300 to-gray-800",
+          color: "text-gray-500", // gray
+          gradientClass: "from-gray-300 to-gray-800",
+          shadowClass: "shadow-gray-500/40",
         };
     }
   };
-
 
   const {
     icon: OutlookIcon,
     color: outlookIconColor,
     gradientClass: outlookGradientClass,
+    shadowClass: outlookShadowClass,
   } = getMarketOutlookInfo(insights.marketOutlook);
+  
   const {
     icon: GrowthIcon,
     color: growthColor,
     gradientClass: growthGradientClass,
+    shadowClass: growthShadowClass,
   } = getGrowthRateColorInfo(insights.growthRate);
+  
   const lastUpdatedDate = format(new Date(insights.lastUpdated), "dd/MM/yyyy");
   const nextUpdateDistance = formatDistanceToNow(new Date(insights.nextUpdate), { addSuffix: true });
+  
   const {
     color: demandColor,
     gradientClass: demandGradientClass,
+    shadowClass: demandShadowClass,
   } = getDemandLevelInfo(insights.demandLevel);
-
 
   return (
     <div>
@@ -150,25 +163,15 @@ const DashboardView = ({ insights }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Market Outlook */}
           <Card
-            className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]"
-            style={{
-              boxShadow: `0 0 12px 0 ${outlookIconColor}`,
-              transition: "box-shadow 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 24px 4px ${outlookIconColor}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 12px 0 ${outlookIconColor}`;
-            }}
+            className={`bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.02] shadow-lg ${outlookShadowClass}`}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Market Outlook</CardTitle>
-              <OutlookIcon className="h-4 w-4" style={{ color: outlookIconColor }} />
+              <OutlookIcon className="h-5 w-5" style={{ color: outlookIconColor }} />
             </CardHeader>
             <CardContent>
               <div
-                className={`text-2xl font-bold bg-clip-text text-transparent ${outlookGradientClass}`}
+                className={`text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${outlookGradientClass}`}
               >
                 {insights.marketOutlook}
               </div>
@@ -180,24 +183,14 @@ const DashboardView = ({ insights }) => {
 
           {/* Industry Growth */}
           <Card
-            className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]"
-            style={{
-              boxShadow: `0 0 12px 0 ${growthColor}`,
-              transition: "box-shadow 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 24px 4px ${growthColor}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 12px 0 ${growthColor}`;
-            }}
+            className={`bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.02] shadow-lg ${growthShadowClass}`}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Industry Growth</CardTitle>
-              <GrowthIcon className="h-4 w-4" style={{ color: growthColor }} />
+              <GrowthIcon className="h-5 w-5" style={{ color: growthColor }} />
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-bold bg-clip-text text-transparent ${growthGradientClass}`}>
+              <div className={`text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${growthGradientClass}`}>
                 {insights.growthRate.toFixed(1)}%
               </div>
               <Progress value={insights.growthRate} className="mt-2" />
@@ -206,48 +199,25 @@ const DashboardView = ({ insights }) => {
 
           {/* Demand Level */}
           <Card
-            className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]"
-            style={{
-              boxShadow: `0 0 12px 0 ${demandColor}`,
-              transition: "box-shadow 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 24px 4px ${demandColor}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 12px 0 ${demandColor}`;
-            }}
+            className={`bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.02] shadow-lg ${demandShadowClass}`}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Demand Level</CardTitle>
-              <BriefcaseIcon className="h-4 w-4" style={{ color: demandColor }} />
+              <BriefcaseIcon className="h-5 w-5" style={{ color: demandColor }} />
             </CardHeader>
             <CardContent>
-              <br />
-              <div className={`text-2xl font-bold bg-clip-text text-transparent ${demandGradientClass}`}>
+              <div className={`text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${demandGradientClass}`}>
                 {insights.demandLevel}
               </div>
-              <div className={`h-2 w-full rounded-full mt-2 ${getDemandLevelInfo(insights.demandLevel)}`} />
+              <div className={`h-2 w-full rounded-full mt-2 bg-gradient-to-r ${demandGradientClass}`} />
             </CardContent>
           </Card>
 
           {/* Top Skills */}
-          <Card
-            className="bg-transparent backdrop-blur-md transition-transform duration-200 hover:scale-[1.02]"
-            style={{
-              boxShadow: `0 0 12px 0 #22d3ee`, // cyan-400
-              transition: "box-shadow 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 24px 4px #22d3ee`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 12px 0 #22d3ee`;
-            }}
-          >
+          <Card className="bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.02] shadow-lg shadow-cyan-500/40">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Top Skills</CardTitle>
-              <Brain className="h-4 w-4" style={{ color: "#22d3ee" }} />
+              <Brain className="h-5 w-5 text-cyan-500" />
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-1">
@@ -266,11 +236,10 @@ const DashboardView = ({ insights }) => {
               </div>
             </CardContent>
           </Card>
-
         </div>
 
         {/* Salary Chart */}
-        <Card className="col-span-4 bg-background/60 backdrop-blur-md border-none">
+        <Card className="col-span-4 bg-background/60 backdrop-blur-md border-none transition-transform duration-200 hover:scale-[1.01]">
           <CardHeader className="text-center group">
             <CardTitle className="text-2xl font-bold transition-all duration-300">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 group-hover:from-blue-500 group-hover:to-cyan-400 transition-all duration-300">
@@ -290,9 +259,6 @@ const DashboardView = ({ insights }) => {
                   data={salaryData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
                 >
-                  {/* <CartesianGrid strokeDasharray="3 3" /> */}
-
-                  {/* X-Axis with word wrap + upright orientation */}
                   <XAxis
                     dataKey="name"
                     interval={0}
@@ -325,13 +291,11 @@ const DashboardView = ({ insights }) => {
                     }}
                   />
 
-                  {/* Y-Axis with spacing and color */}
                   <YAxis
                     tick={{ fill: "#FFFFFF", fontSize: 12 }}
                     tickMargin={5}
                   />
 
-                  {/* Gradient definitions */}
                   <defs>
                     <linearGradient id="minGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#facc15" />
@@ -375,7 +339,6 @@ const DashboardView = ({ insights }) => {
                     }}
                   />
 
-                  {/* Bars */}
                   <Bar dataKey="min" name="Min Salary (K)" fill="url(#minGradient)" />
                   <Bar dataKey="median" name="Median Salary (K)" fill="url(#medianGradient)" />
                   <Bar dataKey="max" name="Max Salary (K)" fill="url(#maxGradient)" />
@@ -387,14 +350,16 @@ const DashboardView = ({ insights }) => {
 
         {/* Trends & Recommended Skills */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
           {/* Key Industry Trends */}
-          <Card className="bg-transparent shadow-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01]">
-            {/* <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 animate-pulse" /> */}
+          <Card className="bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01] shadow-lg shadow-cyan-500/40">
             <CardHeader className="relative z-10">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-cyan-300" />
-                <CardTitle className="text-sm font-semibold text-cyan-100">Key Industry Trends</CardTitle>
+                <TrendingUp className="h-5 w-5 text-cyan-300" />
+                <CardTitle className="text-sm font-semibold text-cyan-100">
+                  <span className="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
+                    Key Industry Trends
+                  </span>
+                </CardTitle>
               </div>
             </CardHeader>
             <CardContent className="relative z-10">
@@ -413,13 +378,16 @@ const DashboardView = ({ insights }) => {
             </CardContent>
           </Card>
 
-
           {/* Recommended Skills */}
-          <Card className="bg-transparent shadow-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01]">
+          <Card className="bg-transparent border-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01] shadow-lg shadow-blue-500/40">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Brain className="h-4 w-4 text-cyan-400" />
-                <CardTitle className="text-sm font-semibold text-foreground">Recommended Skills</CardTitle>
+                <Brain className="h-5 w-5 text-blue-400" />
+                <CardTitle className="text-sm font-semibold">
+                  <span className="bg-gradient-to-r from-blue-300 to-indigo-400 bg-clip-text text-transparent">
+                    Recommended Skills
+                  </span>
+                </CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -429,7 +397,7 @@ const DashboardView = ({ insights }) => {
                     key={skill}
                     className={`text-sm text-white px-4 py-1.5 rounded-full text-center transition-transform hover:scale-105
                       ${index % 2 !== 0 ? "mt-2 ml-4" : ""}
-                      ${index % 2 === 0 ? "bg-cyan-500" : "bg-blue-500"}
+                      ${index % 2 === 0 ? "bg-gradient-to-r from-cyan-500 to-cyan-600" : "bg-gradient-to-r from-blue-500 to-blue-600"}
                     `}
                     style={{
                       width: "120px",
@@ -444,8 +412,6 @@ const DashboardView = ({ insights }) => {
               </div>
             </CardContent>
           </Card>
-
-
         </div>
       </div>
     </div>

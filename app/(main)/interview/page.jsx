@@ -8,16 +8,23 @@ export default async function InterviewPrepPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="text-6xl font-bold gradient-title">
-          Interview Preparation
-        </h1>
+      <div className="grid-background"></div>
+      <div>
+        <div className="flex items-center justify-between mb-5">
+          <h1 className="text-6xl font-bold gradient-title">
+            Interview {" "}
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Preparation
+            </span>
+          </h1>
+        </div>
+        <div className="space-y-6">
+          <StatsCards assessments={assessments} />
+          <PerformanceChart assessments={assessments} />
+          <QuizList assessments={assessments} />
+        </div>
       </div>
-      <div className="space-y-6">
-        <StatsCards assessments={assessments} />
-        <PerformanceChart assessments={assessments} />
-        <QuizList assessments={assessments} />
-      </div>
+        
     </div>
   );
 }

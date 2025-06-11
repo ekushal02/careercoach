@@ -85,46 +85,55 @@ export default function HeaderClient() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="flex items-center gap-2 bg-gradient-to-r from-background to-cyan-400 text-white shadow-md hover:from-cyan-400 hover:to-background hover:scale-105 transition-all duration-300">
+                <Button
+                  className="flex items-center gap-2 bg-gradient-to-r from-background to-cyan-400 text-white shadow-md hover:from-cyan-400 hover:to-background hover:scale-105 transition-all duration-300 border-none focus:outline-none focus:ring-0 focus:border-none active:border-none active:outline-none active:ring-0 ring-0 outline-none"
+                  variant="ghost"
+                >
                   <StarsIcon className="h-4 w-4" />
                   <span className="hidden md:block">Growth Tools</span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
 
-              {/* This ensures the menu renders correctly in the DOM */}
               <DropdownMenuContent
                 align="end"
                 sideOffset={8}
                 className="z-[100] mt-2 w-48 rounded-xl shadow-lg border border-border bg-background backdrop-blur-md"
               >
                 <div className="px-1 py-1">
-                  <Link
-                    href="/resume"
-                    className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
-                  >
-                    <FileText className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
-                    Build Resume
-                  </Link>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/resume"
+                      className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
+                    >
+                      <FileText className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
+                      <span className="transition-colors duration-200 group-hover:text-blue-500">Build Resume</span>
+                    </Link>
+                  </DropdownMenuItem>
 
-                  <Link
-                    href="/ai-cover-letter"
-                    className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
-                  >
-                    <PenBox className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
-                    Cover Letter
-                  </Link>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/ai-cover-letter"
+                      className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
+                    >
+                      <PenBox className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
+                      <span className="transition-colors duration-200 group-hover:text-blue-500">Cover Letter</span>
+                    </Link>
+                  </DropdownMenuItem>
 
-                  <Link
-                    href="/interview"
-                    className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
-                  >
-                    <GraduationCap className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
-                    Interview Prep
-                  </Link>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/interview"
+                      className="group flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 hover:bg-muted hover:text-blue-500"
+                    >
+                      <GraduationCap className="h-4 w-4 transition-colors duration-200 group-hover:text-blue-500" />
+                      <span className="transition-colors duration-200 group-hover:text-blue-500">Interview Prep</span>
+                    </Link>
+                  </DropdownMenuItem>
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
+
 
           </SignedIn>
 

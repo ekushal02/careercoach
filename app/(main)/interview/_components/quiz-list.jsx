@@ -23,38 +23,53 @@ export default function QuizList({ assessments }) {
   const router = useRouter();
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
+  const getScoreColor = (score) => {
+    if (score <= 40) return "text-red-500";
+    if (score <= 70) return "text-yellow-400";
+    return "text-green-400";
+  };
+
   return (
     <>
-      <Card>
+      <Card className="bg-transparent border-none shadow-none backdrop-blur-md">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <CardTitle className="gradient-title text-3xl md:text-4xl">
-                Recent Quizzes
+              <CardTitle className="text-3xl md:text-4xl">
+                Recent {" "}
+                <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                  Quizzes
+                </span>
               </CardTitle>
               <CardDescription>
                 Review your past quiz performance
               </CardDescription>
             </div>
-            <Button onClick={() => router.push("/interview/mock")}>
+            <Button
+              onClick={() => router.push("/interview/mock")}
+              className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:from-blue-500 hover:to-cyan-400 transition-all"
+            >
               Start New Quiz
             </Button>
           </div>
         </CardHeader>
+
         <CardContent>
           <div className="space-y-4">
             {assessments?.map((assessment, i) => (
               <Card
                 key={assessment.id}
-                className="cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setSelectedQuiz(assessment)}
+                className="cursor-pointer bg-transparent border border-transparent hover:border-blue-400 transition-all"
               >
                 <CardHeader>
-                  <CardTitle className="gradient-title text-2xl">
+                  <CardTitle className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                     Quiz {i + 1}
                   </CardTitle>
                   <CardDescription className="flex justify-between w-full">
-                    <div>Score: {assessment.quizScore.toFixed(1)}%</div>
+                    <div className={`font-medium ${getScoreColor(assessment.quizScore)}`}>
+                      Score: {assessment.quizScore.toFixed(1)}%
+                    </div>
                     <div>
                       {format(
                         new Date(assessment.createdAt),

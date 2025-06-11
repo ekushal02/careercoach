@@ -5,7 +5,6 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -21,6 +20,7 @@ import { format } from "date-fns";
 
 export default function PerformanceChart({ assessments }) {
   const [chartData, setChartData] = useState([]);
+  const [showDots, setShowDots] = useState(false);
 
   useEffect(() => {
     if (assessments) {
@@ -32,28 +32,49 @@ export default function PerformanceChart({ assessments }) {
     }
   }, [assessments]);
 
+  const getScoreColor = (score) => {
+    if (score <= 40) return "text-red-500";
+    if (score <= 70) return "text-yellow-400";
+    return "text-green-400";
+  };
+
   return (
-    <Card>
+    <Card className="bg-transparent border-none shadow-none backdrop-blur-md">
       <CardHeader>
         <CardTitle className="gradient-title text-3xl md:text-4xl">
-          Performance Trend
+          <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            Performance{" "}
+          </span>
+          Trend
         </CardTitle>
         <CardDescription>Your quiz scores over time</CardDescription>
       </CardHeader>
+
       <CardContent>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis domain={[0, 100]} />
+              <XAxis
+                dataKey="date"
+                tick={{ fill: "#fff", fontSize: 12 }}
+                axisLine={{ stroke: "#fff" }}
+                tickLine={{ stroke: "#fff" }}
+              />
+              <YAxis
+                domain={[0, 100]}
+                tick={{ fill: "#fff", fontSize: 12 }}
+                axisLine={{ stroke: "#fff" }}
+                tickLine={{ stroke: "#fff" }}
+              />
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload?.length) {
+                    const score = payload[0].value;
+                    const scoreColor = getScoreColor(score);
                     return (
                       <div className="bg-background border rounded-lg p-2 shadow-md">
-                        <p className="text-sm font-medium">
-                          Score: {payload[0].value}%
+                        <p className={`text-sm font-medium ${scoreColor}`}>
+                          Score: {score}%
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {payload[0].payload.date}
@@ -67,9 +88,30 @@ export default function PerformanceChart({ assessments }) {
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="hsl(var(--primary))"
+                stroke="#3B82F6"
                 strokeWidth={2}
+                isAnimationActive={true}
+                animationDuration={1200}
+                onAnimationEnd={() => setShowDots(true)}
+                dot={({ cx, cy, index }) =>
+                  showDots ? (
+                    <circle
+                      key={`dot-${index}`}
+                      cx={cx}
+                      cy={cy}
+                      r={4}
+                      fill="#3B82F6"
+                      stroke="#3B82F6"
+                      strokeWidth={2}
+                      className="fade-pop"
+                      style={{
+                        animationDelay: `${index * 0.1}s`,
+                      }}
+                    />
+                  ) : null
+                }
               />
+
             </LineChart>
           </ResponsiveContainer>
         </div>

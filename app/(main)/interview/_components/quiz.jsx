@@ -85,10 +85,9 @@ export default function Quiz() {
   };
 
   if (generatingQuiz) {
-    return <BarLoader className="mt-4" width={"100%"} color="gray" />;
+    return <BarLoader className="mt-4" width={"100%"} color="#22d3ee" />;
   }
 
-  // Show results if quiz is completed
   if (resultData) {
     return (
       <div className="mx-2">
@@ -99,7 +98,7 @@ export default function Quiz() {
 
   if (!quizData) {
     return (
-      <Card className="mx-2">
+      <Card className="mx-2 bg-transparent border-none shadow-none">
         <CardHeader>
           <CardTitle>Ready to test your knowledge?</CardTitle>
         </CardHeader>
@@ -110,7 +109,7 @@ export default function Quiz() {
           </p>
         </CardContent>
         <CardFooter>
-          <Button onClick={generateQuizFn} className="w-full">
+          <Button onClick={generateQuizFn} className="w-full bg-cyan-400 text-white hover:bg-cyan-500">
             Start Quiz
           </Button>
         </CardFooter>
@@ -121,12 +120,13 @@ export default function Quiz() {
   const question = quizData[currentQuestion];
 
   return (
-    <Card className="mx-2">
+    <Card className="mx-2 bg-transparent border-none shadow-none">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
           Question {currentQuestion + 1} of {quizData.length}
         </CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-4">
         <p className="text-lg font-medium">{question.question}</p>
         <RadioGroup
@@ -136,33 +136,48 @@ export default function Quiz() {
         >
           {question.options.map((option, index) => (
             <div key={index} className="flex items-center space-x-2">
-              <RadioGroupItem value={option} id={`option-${index}`} />
-              <Label htmlFor={`option-${index}`}>{option}</Label>
+              <RadioGroupItem
+                value={option}
+                id={`option-${index}`}
+                className="data-[state=checked]:border-blue-500 data-[state=checked]:text-blue-500 data-[state=checked]:bg-blue-100"
+              />
+              <Label
+                htmlFor={`option-${index}`}
+                className={`${
+                  answers[currentQuestion] === option
+                    ? "text-blue-500 font-semibold"
+                    : ""
+                }`}
+              >
+                {option}
+              </Label>
             </div>
           ))}
         </RadioGroup>
 
         {showExplanation && (
-          <div className="mt-4 p-4 bg-muted rounded-lg">
+          <div className="mt-4 p-4 rounded-lg bg-transparent border border-none shadow-none">
             <p className="font-medium">Explanation:</p>
             <p className="text-muted-foreground">{question.explanation}</p>
           </div>
         )}
       </CardContent>
+
       <CardFooter className="flex justify-between">
         {!showExplanation && (
           <Button
             onClick={() => setShowExplanation(true)}
-            variant="outline"
             disabled={!answers[currentQuestion]}
+            className="bg-cyan-400 text-white hover:bg-cyan-500"
           >
             Show Explanation
           </Button>
         )}
+
         <Button
           onClick={handleNext}
           disabled={!answers[currentQuestion] || savingResult}
-          className="ml-auto"
+          className="ml-auto bg-gradient-to-r from-red-400 to-blue-500 text-white hover:from-blue-500 hover:to-red-400 transition-all duration-300"
         >
           {savingResult && (
             <BarLoader className="mt-4" width={"100%"} color="gray" />
