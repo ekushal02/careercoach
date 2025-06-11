@@ -228,3 +228,16 @@
   object-fit: cover;
   transition: none; /* Prevents scaling or animation */
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 50s linear infinite;
+}

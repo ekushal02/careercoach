@@ -120,3 +120,29 @@ export async function deleteCoverLetter(id) {
     },
   });
 }
+
+export async function updateCoverLetter(id, content) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  // Check ownership before updating
+  const existing = await db.coverLetter.findUnique({
+    where: { id },
+  });
+
+  if (!existing || existing.userId !== user.id) {
+    throw new Error("You do not have permission to edit this cover letter");
+  }
+
+  // Proceed with the update
+  return await db.coverLetter.update({
+    where: { id },
+    data: { content },
+  });
+}

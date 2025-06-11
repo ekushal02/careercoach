@@ -7,7 +7,7 @@ export const onboardingSchema = z.object({
   subIndustry: z.string({
     required_error: "Please select a specialization",
   }),
-  bio: z.string().max(500).optional(),
+  bio: z.string().max(1500).optional(),
   experience: z
     .string()
     .transform((val) => parseInt(val, 10))

@@ -37,13 +37,13 @@ const DashboardView = ({ insights }) => {
   }));
 
   const getGrowthRateColorInfo = (rate) => {
-    if (rate >= 10) {
+    if (rate >= 20) {
       return {
         icon: TrendingUp,
         color: "#22c55e", // green
         gradientClass: "bg-gradient-to-r from-green-300 to-green-800",
       };
-    } else if (rate >= 5) {
+    } else if (rate >= 10) {
       return {
         icon: LineChart,
         color: "#eab308", // yellow
@@ -270,7 +270,7 @@ const DashboardView = ({ insights }) => {
         </div>
 
         {/* Salary Chart */}
-        <Card className="col-span-4 bg-background/60 backdrop-blur-md">
+        <Card className="col-span-4 bg-background/60 backdrop-blur-md border-none">
           <CardHeader className="text-center group">
             <CardTitle className="text-2xl font-bold transition-all duration-300">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 group-hover:from-blue-500 group-hover:to-cyan-400 transition-all duration-300">
@@ -389,29 +389,33 @@ const DashboardView = ({ insights }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Key Industry Trends */}
-          <Card className="bg-background/50 backdrop-blur-md shadow-md transition-transform duration-200 hover:scale-[1.01]">
-            <CardHeader>
+          <Card className="bg-transparent shadow-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01]">
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 animate-pulse" /> */}
+            <CardHeader className="relative z-10">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-cyan-400" />
-                <CardTitle className="text-sm font-semibold text-foreground">Key Industry Trends</CardTitle>
+                <TrendingUp className="h-4 w-4 text-cyan-300" />
+                <CardTitle className="text-sm font-semibold text-cyan-100">Key Industry Trends</CardTitle>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {insights.keyTrends.map((trend) => (
-                  <span
-                    key={trend}
-                    className="text-sm text-foreground bg-muted rounded-full px-3 py-1 hover:bg-cyan-500 transition-colors"
-                  >
-                    {trend}
-                  </span>
-                ))}
+            <CardContent className="relative z-10">
+              <div className="h-[200px] overflow-hidden">
+                <div className="animate-marquee space-y-2">
+                  {insights.keyTrends.concat(insights.keyTrends).map((trend, idx) => (
+                    <div
+                      key={trend + idx}
+                      className="text-sm text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full px-3 py-1 w-fit mx-auto hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-sm"
+                    >
+                      {trend}
+                    </div>
+                  ))}
+                </div>
               </div>
             </CardContent>
           </Card>
 
+
           {/* Recommended Skills */}
-          <Card className="bg-background/50 backdrop-blur-md shadow-md transition-transform duration-200 hover:scale-[1.01]">
+          <Card className="bg-transparent shadow-none backdrop-blur-md transition-transform duration-200 hover:scale-[1.01]">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Brain className="h-4 w-4 text-cyan-400" />
@@ -419,11 +423,20 @@ const DashboardView = ({ insights }) => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {insights.recommendedSkills.map((skill) => (
+              <div className="flex flex-wrap gap-2 justify-center">
+                {insights.recommendedSkills.map((skill, index) => (
                   <span
                     key={skill}
-                    className="text-sm text-foreground bg-muted rounded-full px-3 py-1 hover:bg-blue-500 transition-colors"
+                    className={`text-sm text-white px-4 py-1.5 rounded-full text-center transition-transform hover:scale-105
+                      ${index % 2 !== 0 ? "mt-2 ml-4" : ""}
+                      ${index % 2 === 0 ? "bg-cyan-500" : "bg-blue-500"}
+                    `}
+                    style={{
+                      width: "120px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
                     {skill}
                   </span>
@@ -432,10 +445,8 @@ const DashboardView = ({ insights }) => {
             </CardContent>
           </Card>
 
+
         </div>
-
-
-
       </div>
     </div>
   );
